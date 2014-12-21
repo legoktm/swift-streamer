@@ -71,9 +71,13 @@ html += """
 """
 
 
-def ensure_directory(path):
+def ensure_directory(path, hide_listings=False):
     if not os.path.exists(path):
         os.mkdir(path)
+    if hide_listings:
+        with open(os.path.join(path, 'index.html'), 'w') as f:
+            f.write('Go away.')
+
 
 ensure_directory(config.OUTPUT)
 with open(config.OUTPUT + '/index.html', 'w') as f:
@@ -81,7 +85,7 @@ with open(config.OUTPUT + '/index.html', 'w') as f:
     print('Wrote to %s/index.html' % config.OUTPUT)
 
 OUTPUT_AUDIO = config.OUTPUT + '/audio'
-ensure_directory(OUTPUT_AUDIO)
+ensure_directory(OUTPUT_AUDIO, hide_listings=True)
 for album in all_albums:
     for song in album.songs:
         if not os.path.isfile(song.filename(remove_ext=False)):
@@ -93,7 +97,7 @@ for album in all_albums:
 print('Copied audio')
 
 OUTPUT_COVERS = config.OUTPUT + '/covers'
-ensure_directory(OUTPUT_COVERS)
+ensure_directory(OUTPUT_COVERS, hide_listings=True)
 for album in all_albums:
     path = os.path.join(OUTPUT_COVERS, album.name + '.jpg')
     if album.cover_art:
@@ -104,4 +108,5 @@ OUTPUT_JS = config.OUTPUT + '/js'
 if os.path.exists(OUTPUT_JS):
     shutil.rmtree(OUTPUT_JS)
 shutil.copytree('js', OUTPUT_JS)
+ensure_directory(OUTPUT_JS, hide_listings=True)
 print('Copied js')
