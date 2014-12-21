@@ -54,9 +54,9 @@ $(function(){
 					'type': 'audio/ogg'
 				}));
 			}
-			cover.switch(song.album);
 			$player[0].load();
 			$player[0].play();
+			cover.switch(song.album);
 		},
 		'next': function() {
 			if (queue.hasMore()) {
