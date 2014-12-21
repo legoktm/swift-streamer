@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import shutil
 from subprocess import check_output
@@ -41,7 +42,10 @@ html = """
             <img id="cover" style="float:right;"/>
             <ol id="queue">
             </ol>
-"""
+        <div id="config" style="display:none">%s</div>
+""" % json.dumps({
+    'ogg': config.GENERATE_OGGS,
+})
 
 album_header = """
 <h1>{album} ({year})</h1>
@@ -90,10 +94,11 @@ for album in all_albums:
     for song in album.songs:
         if not os.path.isfile(song.filename(remove_ext=False)):
             shutil.copy(song.path, OUTPUT_AUDIO)
-        ogg = song.filename() + '.ogg'
-        if not os.path.isfile(os.path.join(OUTPUT_AUDIO, ogg)):
-            check_output(['ffmpeg', '-i', song.path, '-c:a', 'libvorbis', '-q:a', '4', ogg])
-            shutil.move(ogg, OUTPUT_AUDIO)
+        if config.GENERATE_OGGS:
+            ogg = song.filename() + '.ogg'
+            if not os.path.isfile(os.path.join(OUTPUT_AUDIO, ogg)):
+                check_output(['ffmpeg', '-i', song.path, '-c:a', 'libvorbis', '-q:a', '4', ogg])
+                shutil.move(ogg, OUTPUT_AUDIO)
 print('Copied audio')
 
 OUTPUT_COVERS = config.OUTPUT + '/covers'

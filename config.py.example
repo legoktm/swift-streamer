@@ -6,6 +6,9 @@ MUSIC = '~/Music'
 # Where the completed website and files should be placed
 OUTPUT = 'output'
 
+# Whether to generate .ogg files
+GENERATE_OGGS = True
+
 # If you plan to use fabric for deployment:
 
 # Hostname or IP of the remote server to deploy to
