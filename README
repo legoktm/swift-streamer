@@ -1,0 +1,32 @@
+swift-streamer
+
+swift-streamer is a static HTML and JavaScript-based music player.
+It should work in all browsers that support the <audio> tag.
+
+Preparing your music library:
+
+swift-streamer expects your music to be heiarchically sorted, for example:
+  ./Music/Taylor Swift/1989/06 Shake It Off.mp3
+
+They should also be tagged with the appropriate MusicBrainz IDs. You
+can use Picard or beets to do so.
+
+Only mp3s are supported at the moment.
+
+If you wish to support users without mp3 decoding libraries installed, 
+ffmpeg can be used to convert mp3s into ogg files.
+
+Usage:
+    cp config.py.example config.py
+    # Edit your config accordingly
+    pip install -r requirements.txt
+    python3 build.py
+
+Deploying with fabric:
+    # Make sure you're ok with it locally
+    cd output && python3 -m http.server
+    # Re-build and sync
+    fab deploy
+    # If you just want to sync what is in your output directory:
+    fab sync
+

@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+
+# Directory where your music is stored. ~ will be expanded
+MUSIC = '~/Music'
+
+# Where the completed website and files should be placed
+OUTPUT = 'output'
+
+# If you plan to use fabric for deployment:
+
+# Hostname or IP of the remote server to deploy to
+REMOTE_SERVER = 'some.server'
+# Location where to place the files
+REMOTE_LOCATION = '/var/www/swift'
