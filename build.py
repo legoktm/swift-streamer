@@ -41,16 +41,17 @@ html = """
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>swift-player</title>
+        <link rel="stylesheet" href="resources/styles.css" />
         <script src="resources/jquery-2.1.1.min.js"></script>
         <script src="resources/playlist.js"></script>
     </head>
     <body>
         <h1>Queue</h1>
             <audio id="player" controls preload="none"></audio>
-            <img id="cover" style="float:right;"/>
+            <img id="cover"/>
             <ol id="queue">
             </ol>
-        <div id="config" style="display:none">%s</div>
+        <div id="config">%s</div>
 """ % json.dumps({
     'ogg': config.GENERATE_OGGS,
 })
