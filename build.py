@@ -41,8 +41,8 @@ html = """
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>swift-player</title>
-        <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="js/playlist.js"></script>
+        <script src="resources/jquery-2.1.1.min.js"></script>
+        <script src="resources/playlist.js"></script>
     </head>
     <body>
         <h1>Queue</h1>
@@ -132,9 +132,9 @@ for album in all_albums:
         shutil.copy(album.cover_art, path)
 print('Copied cover art')
 
-OUTPUT_JS = config.OUTPUT + '/js'
-if os.path.exists(OUTPUT_JS):
-    shutil.rmtree(OUTPUT_JS)
-shutil.copytree('js', OUTPUT_JS)
-ensure_directory(OUTPUT_JS, hide_listings=True)
-print('Copied js')
+OUTPUT_RESOURCES = config.OUTPUT + '/resources'
+if os.path.exists(OUTPUT_RESOURCES):
+    shutil.rmtree(OUTPUT_RESOURCES)
+shutil.copytree('resources', OUTPUT_RESOURCES)
+ensure_directory(OUTPUT_RESOURCES, hide_listings=True)
+print('Copied resources')
