@@ -16,7 +16,8 @@ def process_artist(artist, path):
     album_names = os.listdir(path)
     albums = []
     for album in album_names:
-        albums.append(Album(artist, os.path.join(path, album)))
+        if not album.startswith('.'):
+            albums.append(Album(artist, os.path.join(path, album)))
 
     return albums
 
