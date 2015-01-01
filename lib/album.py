@@ -46,9 +46,7 @@ class Album:
     def mbid(self):
         songs = self.songs
         if not songs:
-            print(self.name)
-            quit()
-            return None
+            raise Exception('Cannot find songs in %s' % self.path)
         return self.songs[0].album_mbid
 
     @property
