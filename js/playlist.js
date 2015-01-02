@@ -56,7 +56,7 @@ $(function(){
 			}
 			$player[0].load();
 			$player[0].play();
-			cover.switch(song.album);
+			cover.switch(song.hash_);
 		},
 		'next': function() {
 			if (queue.hasMore()) {
@@ -82,7 +82,8 @@ $(function(){
 		queue.add({
 			'src': $this.data('src'),
 			'name': $this.text(),
-			'album': $this.data('album')
+			'album': $this.data('album'),
+			'hash_': $this.data('hash')
 		});
 	});
 });

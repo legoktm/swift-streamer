@@ -65,7 +65,7 @@ album_closer = """
 """
 
 song_template = """
-        <li><a class="add-queue" data-src="{src}" data-album="{album}" href="">{name}</a></li>
+        <li><a class="add-queue" data-src="{src}" data-album="{album}" data-hash="{hash_}" href="">{name}</a></li>
 """
 
 all_albums = get_all_albums()
@@ -74,7 +74,12 @@ all_albums.sort(key=lambda album: album.year)
 for album in all_albums:
     html += album_header.format(album=album.name, year=album.year)
     for song in album.songs:
-        html += song_template.format(name=song.title, src='audio/' + song.filename(), album=album.name)
+        html += song_template.format(
+            name=song.title,
+            src='audio/' + song.filename(),
+            album=album.name,
+            hash_=album.hash_
+        )
     html += album_closer
 
 html += """
@@ -122,7 +127,7 @@ print('Copied audio')
 OUTPUT_COVERS = config.OUTPUT + '/covers'
 ensure_directory(OUTPUT_COVERS, hide_listings=True)
 for album in all_albums:
-    path = os.path.join(OUTPUT_COVERS, album.name + '.jpg')
+    path = os.path.join(OUTPUT_COVERS, album.hash_ + '.jpg')
     if album.cover_art:
         shutil.copy(album.cover_art, path)
 print('Copied cover art')

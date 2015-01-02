@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+import hashlib
 import musicbrainzngs
 import os
 
@@ -21,6 +23,10 @@ class Album:
     @property
     def name(self):
         return self.mb_info['title']
+
+    @property
+    def hash_(self):
+        return hashlib.sha1(self.name.encode()).hexdigest()
 
     @property
     def songs(self):
