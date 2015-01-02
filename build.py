@@ -98,11 +98,13 @@ ensure_directory(OUTPUT_AUDIO, hide_listings=True)
 for album in all_albums:
     for song in album.songs:
         if not os.path.isfile(song.filename(remove_ext=False)):
+            print('Copying %s...' % song.filename(remove_ext=False))
             shutil.copy(song.path, OUTPUT_AUDIO)
         if config.GENERATE_OGGS:
             ogg = song.filename() + '.ogg'
             if not os.path.isfile(os.path.join(OUTPUT_AUDIO, ogg)):
-                check_output(['ffmpeg', '-i', song.path, '-c:a', 'libvorbis', '-q:a', '4', ogg])
+                print('Converting %s to ogg.' % song.filename())
+                check_output(['ffmpeg', '-i', song.path, '-acodec', 'libopus', ogg, '-v', 'error'])
                 shutil.move(ogg, OUTPUT_AUDIO)
 print('Copied audio')
 
