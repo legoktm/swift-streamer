@@ -24,7 +24,10 @@ def process_artist(artist, path):
 
 def get_all_albums():
     albums = []
-    artists = os.listdir(config.MUSIC)
+    artists = []
+    for artist in os.listdir(config.MUSIC):
+        if config.MATCH_ARTIST_PREFIX is None or artist.startswith(config.MATCH_ARTIST_PREFIX):
+            artists.append(artist)
     print(artists)
     for artist in artists:
         albums.extend(process_artist(artist, os.path.join(config.MUSIC, artist)))

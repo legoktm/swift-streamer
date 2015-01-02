@@ -9,6 +9,9 @@ OUTPUT = 'output'
 # Whether to generate .ogg files
 GENERATE_OGGS = True
 
+# Whitelist of artists to include. Set to None to include everything
+MATCH_ARTIST_PREFIX = None
+
 # If you plan to use fabric for deployment:
 
 # Hostname or IP of the remote server to deploy to
