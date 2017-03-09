@@ -18,17 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import json
 import os
-import queue
 import shutil
+from subprocess import check_output
 
 import config
 from lib.album import Album
-from lib.mover import Mover
-from lib.worker import WorkerThread
+
 
 config.MUSIC = os.path.expanduser(config.MUSIC)
-
-print('Hello, welcome to swift-streamer.')
 
 
 def process_artist(artist, path):
@@ -47,7 +44,7 @@ def get_all_albums():
     for artist in os.listdir(config.MUSIC):
         if config.MATCH_ARTIST_PREFIX is None or artist.startswith(config.MATCH_ARTIST_PREFIX):
             artists.append(artist)
-    print('Processing: %s' % ', '.join(artists))
+    print(artists)
     for artist in artists:
         path = os.path.join(config.MUSIC, artist)
         if os.path.isdir(path):
@@ -125,25 +122,17 @@ with open(config.OUTPUT + '/index.html', 'w') as f:
 
 OUTPUT_AUDIO = config.OUTPUT + '/audio'
 ensure_directory(OUTPUT_AUDIO, hide_listings=True)
-ogg_queue = queue.Queue()
-for i in range(0, 10):
-    t = WorkerThread(ogg_queue)
-    t.setDaemon(True)
-    t.start()
 for album in all_albums:
     for song in album.songs:
-        if not os.path.isfile(os.path.join(OUTPUT_AUDIO, song.filename(remove_ext=False))):
+        if not os.path.isfile(song.filename(remove_ext=False)):
             print('Copying %s...' % song.filename(remove_ext=False))
             shutil.copy(song.path, OUTPUT_AUDIO)
         if config.GENERATE_OGGS:
             ogg = song.filename() + '.ogg'
             if not os.path.isfile(os.path.join(OUTPUT_AUDIO, ogg)):
-                info = {
-                    'command': ['ffmpeg', '-i', song.path, '-acodec', 'libopus', ogg, '-v', 'error'],
-                    'callback': Mover(ogg, OUTPUT_AUDIO).move,
-                }
-                ogg_queue.put(info)
-ogg_queue.join()
+                print('Converting %s to ogg.' % song.filename())
+                check_output(['ffmpeg', '-i', song.path, '-acodec', 'libopus', ogg, '-v', 'error'])
+                shutil.move(ogg, OUTPUT_AUDIO)
 print('Copied audio')
 
 OUTPUT_COVERS = config.OUTPUT + '/covers'
