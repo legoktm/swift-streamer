@@ -2,6 +2,10 @@
     display: none;
 }
 
-#cover {
+#queue-wrapper {
     float: right;
+}
+
+#player, #queue {
+    clear: right;
 }

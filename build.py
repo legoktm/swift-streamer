@@ -46,11 +46,12 @@ html = """
         <script src="resources/playlist.js"></script>
     </head>
     <body>
-        <h1>Queue</h1>
+        <div id="queue-wrapper">
             <audio id="player" controls preload="none"></audio>
             <img id="cover"/>
             <ol id="queue">
             </ol>
+        </div>
         <div id="config">%s</div>
 """ % json.dumps({
     'ogg': config.GENERATE_OGGS,
