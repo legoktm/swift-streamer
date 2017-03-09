@@ -33,7 +33,6 @@ $(function(){
 	player = {
 		'playing': false,
 		'start': function() {
-			var $player;
 			if (!this.playing) {
 				this.playing = true;
 				this.play();
