@@ -8,7 +8,11 @@ $(function(){
 		'add': function(input) {
 			this._queue.push(input);
 			console.log('Adding ' + input.name + ' to the queue.');
-			$('#queue').append($('<li class="in-queue">').text(input.name + ' - ' + input.album));
+			$('#queue').append(
+				$('<li class="in-queue">').text(
+					input.name + ' - ' + input.album
+				)
+			);
 			player.start();
 		},
 		'pop': function() {

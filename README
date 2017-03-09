@@ -12,7 +12,7 @@ They should also be tagged with the appropriate MusicBrainz IDs. You
 can use Picard or beets to do so.
 
 Only mp3s are supported as source files currently. For supporting users
-without mp3 decoding libraries installed, ffmpeg will optionally be used 
+without mp3 decoding libraries installed, ffmpeg will optionally be used
 to convert the source mp3s into ogg files.
 
 Usage:
