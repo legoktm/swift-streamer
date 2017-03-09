@@ -33,7 +33,9 @@ def get_all_albums():
             artists.append(artist)
     print('Processing: %s' % ', '.join(artists))
     for artist in artists:
-        albums.extend(process_artist(artist, os.path.join(config.MUSIC, artist)))
+        path = os.path.join(config.MUSIC, artist)
+        if os.path.isdir(path):
+            albums.extend(process_artist(artist, path))
     return albums
 
 html = """
