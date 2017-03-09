@@ -54,6 +54,7 @@ def get_all_albums():
             albums.extend(process_artist(artist, path))
     return albums
 
+
 html = """
 <html>
     <head>

@@ -40,6 +40,7 @@ class Song:
     def album_mbid(self):
         return self._info['TXXX:MusicBrainz Album Id'].text[0]
 
+
 if __name__ == '__main__':
     import os
     s = Song(os.path.expanduser('~/Music/Taylor Swift/1989/06 Shake It Off.mp3'))
