@@ -85,4 +85,8 @@ $(function(){
 			'hash_': $this.data('hash')
 		});
 	});
+
+	$('.play-album').click(function() {
+		$(this).next('ol').find('.add-queue').click();
+	});
 });

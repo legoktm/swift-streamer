@@ -61,6 +61,7 @@ html = """
 
 album_header = """
 <h1>{album} ({year})</h1>
+    <small class="play-album">Play album</small>
     <ol>
 """
 
