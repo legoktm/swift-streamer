@@ -9,3 +9,7 @@
 #player, #queue {
     clear: right;
 }
+
+.play-album {
+    cursor: pointer;
+}
