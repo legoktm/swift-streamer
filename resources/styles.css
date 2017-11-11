@@ -13,3 +13,7 @@
 .play-album {
     cursor: pointer;
 }
+
+img {
+    height: 200px;
+}
