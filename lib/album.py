@@ -35,7 +35,8 @@ class Album:
         self._songs = []
         files = os.listdir(self.path)
         for file in files:
-            if file.endswith('.mp3'):
+            # Look for mp3 files, but ignore OSX ._ files.
+            if file.endswith('.mp3') and not file.startswith('.'):
                 self._songs.append(song.Song(os.path.join(self.path, file)))
         self._songs.sort(key=lambda song: song.filename())
         return self._songs
