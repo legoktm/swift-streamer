@@ -18,7 +18,7 @@ def clean():
 
 
 def build():
-    local('~/python3/bin/python build.py')
+    local('~/.venvs/python3/bin/python3 build.py')
 
 
 def publish():
