@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 swift-streamer is a static HTML and JavaScript-based music player
-Copyright (C) 2014, 2017 Kunal Mehta <legoktm@member.fsf.org>
+Copyright (C) 2014, 2017, 2020 Kunal Mehta <legoktm@member.fsf.org>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -68,10 +68,7 @@ html = """
             <ol id="queue">
             </ol>
         </div>
-        <div id="config">%s</div>
-""" % json.dumps({
-    'ogg': config.GENERATE_OGGS,
-})
+"""
 
 album_header = """
 <h1>{album} ({year})</h1>
@@ -91,7 +88,7 @@ all_albums = get_all_albums()
 all_albums.sort(key=lambda album: album.year)
 
 for album in all_albums:
-    html += album_header.format(album=album.name, year=album.year)
+    html += album_header.format(album=album.name, year=album.year[:4])
     for song in album.songs:
         html += song_template.format(
             name=song.title,
@@ -125,14 +122,16 @@ ensure_directory(OUTPUT_AUDIO, hide_listings=True)
 for album in all_albums:
     for song in album.songs:
         if not os.path.isfile(song.filename(remove_ext=False)):
-            print('Copying %s...' % song.filename(remove_ext=False))
-            shutil.copy(song.path, OUTPUT_AUDIO)
-        if config.GENERATE_OGGS:
-            ogg = song.filename() + '.ogg'
-            if not os.path.isfile(os.path.join(OUTPUT_AUDIO, ogg)):
-                print('Converting %s to ogg.' % song.filename())
-                check_output(['ffmpeg', '-i', song.path, '-acodec', 'libopus', ogg, '-v', 'error'])
-                shutil.move(ogg, OUTPUT_AUDIO)
+            if not song.filename().endswith('.mp3'):
+                # We need to transcode it
+                mp3 = song.filename() + '.mp3'
+                if not os.path.isfile(os.path.join(OUTPUT_AUDIO, mp3)):
+                    print('Converting %s to mp3.' % song.filename())
+                    check_output(['ffmpeg', '-i', song.path, '-acodec', 'libmp3lame', mp3, '-v', 'error'])
+                    shutil.move(mp3, OUTPUT_AUDIO)
+            else:
+                print('Copying %s...' % song.filename(remove_ext=False))
+                shutil.copy(song.path, OUTPUT_AUDIO)
 print('Copied audio')
 
 OUTPUT_COVERS = config.OUTPUT + '/covers'

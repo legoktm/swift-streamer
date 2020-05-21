@@ -1,7 +1,6 @@
 $(function(){
 	console.log('ready');
-	var queue, player, cover, config;
-	config = JSON.parse($('#config').text());
+	var queue, player, cover;
 
 	queue = {
 		'_queue': [],
@@ -51,12 +50,6 @@ $(function(){
 				'src': song.src + '.mp3',
 				'type': 'audio/mpeg'
 			}));
-			if (config.ogg) {
-				$player.append($('<source>').attr({
-					'src': song.src + '.ogg',
-					'type': 'audio/ogg'
-				}));
-			}
 			$player[0].load();
 			$player[0].play();
 			cover.switch(song.hash_);

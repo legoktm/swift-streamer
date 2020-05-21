@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 
 import hashlib
-import musicbrainzngs
 import os
 
 from . import song
-
-musicbrainzngs.set_useragent('swift-streamer', '0.1', 'https://github.com/legoktm/swift-streamer')
 
 
 class Album:
@@ -14,7 +11,6 @@ class Album:
         self.path = path
         self._artist = artist
         self._songs = None
-        self._mb_info = None
 
     @property
     def artist(self):
@@ -22,7 +18,7 @@ class Album:
 
     @property
     def name(self):
-        return self.mb_info['title']
+        return self.songs[0].album
 
     @property
     def hash_(self):
@@ -36,7 +32,7 @@ class Album:
         files = os.listdir(self.path)
         for file in files:
             # Look for mp3 files, but ignore OSX ._ files.
-            if file.endswith('.mp3') and not file.startswith('.'):
+            if file.endswith(('.mp3', '.flac')) and not file.startswith('.'):
                 self._songs.append(song.Song(os.path.join(self.path, file)))
         self._songs.sort(key=lambda song: song.filename())
         return self._songs
@@ -50,19 +46,5 @@ class Album:
             return None
 
     @property
-    def mbid(self):
-        songs = self.songs
-        if not songs:
-            raise Exception('Cannot find songs in %s' % self.path)
-        return self.songs[0].album_mbid
-
-    @property
-    def mb_info(self):
-        if self._mb_info is None:
-            self._mb_info = musicbrainzngs.get_release_by_id(self.mbid)['release']
-
-        return self._mb_info
-
-    @property
     def year(self):
-        return self.mb_info['date'].split('-')[0]
+        return self.songs[0].year
